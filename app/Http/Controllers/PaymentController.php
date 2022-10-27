@@ -20,9 +20,9 @@ class PaymentController extends Controller
 
         $sign = hash('sha256', implode('', $sortedRequest) . $request->merchant_key);
 
-        $lastPaymentStatus = MerchantPayment::wherePaymentId($request->payment_id)->first()->status->value;
+        $lastPayment = MerchantPayment::wherePaymentId($request->payment_id)->first();
 
-        if ($lastPaymentStatus !== $request->status) {
+        if ($lastPayment && $lastPayment->status->value !== $request->status) {
             Http::post(url('callback'), [
                 'merchant_id' => $request->merchant_id,
                 'payment_id'  => $request->payment_id,

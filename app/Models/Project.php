@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AppPayment extends Model
+class Project extends Model
 {
     use HasFactory;
 
@@ -13,8 +13,8 @@ class AppPayment extends Model
         'id',
     ];
 
-    public function merchants()
+    public function invoices()
     {
-        return $this->belongsToMany(Merchant::class);
+        return $this->belongsToMany(Invoice::class)->using(InvoiceProject::class);
     }
 }

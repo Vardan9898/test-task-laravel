@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\MerchantAppPaymentStatus;
+use App\Enums\ProjectInvoiceStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -26,10 +26,13 @@ class AppPaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'project'      => ['required', 'numeric', 'max:99999999999999'],
+            'project'     => ['required', 'numeric', 'max:99999999999999'],
+            'invoice'     => ['required', 'numeric', 'max:99999999999999'],
             'amount_paid' => ['required', 'numeric', 'max:9999999999999999'],
+            'amount'      => ['required', 'numeric', 'max:9999999999999999'],
             'currency'    => ['required', 'string', 'max:255'],
-            'status'      => ['required', 'string', 'max:255', new Enum(MerchantAppPaymentStatus::class)],
+            'status'      => ['required', 'string', 'max:255', new Enum(ProjectInvoiceStatus::class)],
+            'rand'        => ['required', 'string', 'max:255'],
         ];
     }
 }

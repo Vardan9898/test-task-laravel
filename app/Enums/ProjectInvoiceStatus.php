@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum MerchantAppPaymentStatus: string
+enum ProjectInvoiceStatus: string
 {
     case Created = 'created';
     case InProgress = 'inprogress';
