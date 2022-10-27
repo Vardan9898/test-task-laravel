@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppPaymentController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +20,5 @@ Route::get('/', function () {
 });
 
 Route::post('payment', [PaymentController::class, 'index']);
+Route::post('app-payment', [AppPaymentController::class, 'index']);
 Route::post('callback', [PaymentController::class, 'callback'])->name('payment.callback');

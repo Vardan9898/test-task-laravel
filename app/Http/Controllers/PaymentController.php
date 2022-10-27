@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PaymentRequest;
-use App\Models\Payment;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use App\Models\MerchantPayment;
+use Illuminate\Support\Facades\Http;
 
 class PaymentController extends Controller
 {
@@ -15,21 +14,27 @@ class PaymentController extends Controller
 
         ksort($sortedRequest);
 
-        array_walk($sortedRequest, function(&$value, $key) {
+        array_walk($sortedRequest, function (&$value, $key) {
             $value = "{$key}:{$value}";
         });
 
         $sign = hash('sha256', implode('', $sortedRequest) . $request->merchant_key);
 
-        $payment = Payment::create();
+        $lastPaymentStatus = MerchantPayment::wherePaymentId($request->payment_id)->first()->status->value;
 
-        $payment->merchants()->attach($request->merchant_id, [
-            'status'      => $request->status,
-            'amount'      => $request->amount,
-            'amount_paid' => $request->amount_paid,
-            'currency'    => $request->currency,
-            'sign'        => $sign,
-        ]);
+        if ($lastPaymentStatus !== $request->status) {
+            Http::post(url('callback'), [
+                'merchant_id' => $request->merchant_id,
+                'payment_id'  => $request->payment_id,
+                'status'      => $request->status,
+                'amount'      => $request->amount,
+                'amount_id'   => $request->amount_paid,
+                'timestamp'   => $request->timestamp,
+                'sign'        => $sign,
+            ]);
+        }
+
+        return response('ok');
     }
 
     public function callback()
