@@ -4,10 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InvoiceRequest;
 use App\Models\InvoiceProject;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 
 class InvoiceController extends Controller
 {
+    /**
+     * @param  InvoiceRequest  $request
+     * @return Application|ResponseFactory|Response
+     */
     public function index(InvoiceRequest $request)
     {
         $sortedRequest = $request->only([
