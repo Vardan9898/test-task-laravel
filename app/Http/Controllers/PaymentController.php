@@ -4,13 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PaymentRequest;
 use App\Models\MerchantPayment;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 
 class PaymentController extends Controller
 {
+    /**
+     * @param  PaymentRequest  $request
+     * @return Application|ResponseFactory|Response
+     */
     public function index(PaymentRequest $request)
     {
-        $sortedRequest = $request->only(['merchant_id', 'payment_id', 'status', 'amount', 'amount_paid', 'currency']);
+        $sortedRequest = $request->only([
+            'merchant_id',
+            'payment_id',
+            'status', 'amount',
+            'amount_paid',
+            'currency',
+        ]);
 
         ksort($sortedRequest);
 
@@ -37,8 +50,11 @@ class PaymentController extends Controller
         return response('ok');
     }
 
+    /**
+     * @return Application|Response|ResponseFactory
+     */
     public function callback()
     {
-        dd('here');
+        return \response('ok');
     }
 }

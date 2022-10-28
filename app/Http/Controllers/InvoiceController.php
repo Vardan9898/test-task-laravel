@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AppPaymentRequest;
+use App\Http\Requests\InvoiceRequest;
 use App\Models\InvoiceProject;
 use Illuminate\Support\Facades\Http;
 
 class InvoiceController extends Controller
 {
-    public function index(AppPaymentRequest $request)
+    public function index(InvoiceRequest $request)
     {
-        $sortedRequest = $request->only(['project', 'invoice', 'status', 'amount', 'amount_paid', 'rand']);
+        $sortedRequest = $request->only([
+            'project',
+            'invoice',
+            'status',
+            'amount',
+            'amount_paid',
+            'rand',
+        ]);
 
         ksort($sortedRequest);
 

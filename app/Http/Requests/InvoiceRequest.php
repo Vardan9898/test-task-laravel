@@ -3,17 +3,29 @@
 namespace App\Http\Requests;
 
 use App\Enums\ProjectInvoiceStatus;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
-class AppPaymentRequest extends FormRequest
+/**
+ * @property int $project
+ * @property int $invoice
+ * @property string $app_key
+ * @property string $status
+ * @property float $amount
+ * @property float $amount_paid
+ * @property string $currency
+ * @property string $rand
+ * @property Carbon $timestamp
+ */
+class InvoiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -23,7 +35,7 @@ class AppPaymentRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'project'     => ['required', 'numeric', 'max:99999999999999'],

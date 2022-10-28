@@ -12,7 +12,7 @@ class MerchantSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         Merchant::factory(6)->create();
     }

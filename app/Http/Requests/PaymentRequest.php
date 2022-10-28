@@ -3,9 +3,20 @@
 namespace App\Http\Requests;
 
 use App\Enums\MerchantPaymentStatus;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
+/**
+ * @property int $merchant_id
+ * @property int $payment_id
+ * @property string $status
+ * @property float $amount
+ * @property float $amount_paid
+ * @property string $currency
+ * @property string $merchant_key
+ * @property Carbon $timestamp
+ */
 class PaymentRequest extends FormRequest
 {
     /**
@@ -13,7 +24,7 @@ class PaymentRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -23,7 +34,7 @@ class PaymentRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'amount'      => ['required', 'numeric', 'max:99999999999999'],
